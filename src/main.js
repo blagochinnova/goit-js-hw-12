@@ -15,7 +15,7 @@ let searchParamsDefaults = {
   orientation: 'horizontal',
   safesearch: true,
   page: 1,
-  per_page: 40, // Змінено на 40 об'єктів на сторінку
+  per_page: 40,
 };
 
 function showLoaderAndHideGallery() {
@@ -52,7 +52,7 @@ function generateGalleryHTML(hits) {
 
 function renderGallery(hits) {
   const galleryHTML = generateGalleryHTML(hits);
-  galleryContainer.innerHTML += galleryHTML; // Змінено на += для додавання до існуючого HTML
+  galleryContainer.innerHTML += galleryHTML; 
 }
 
 function initializeImageLightbox() {
@@ -97,7 +97,7 @@ async function searchImages(params) {
     } else {
       renderGallery(response.data.hits);
       initializeImageLightbox();
-      searchParamsDefaults.page++; // Збільшення значення сторінки
+      searchParamsDefaults.page++; 
     }
 
     // Перевірка на кінець колекції
