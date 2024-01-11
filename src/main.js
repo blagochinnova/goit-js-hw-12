@@ -111,6 +111,30 @@ async function searchImages(params) {
     }
   } catch (error) {
     console.error(error);
+
+    if (error.response) {
+      
+      iziToast.error({
+        position: 'topRight',
+        color: 'red',
+        message: `Server responded with an error: ${error.response.statusText}`,
+      });
+    } else if (error.request) {
+      
+      iziToast.error({
+        position: 'topRight',
+        color: 'red',
+        message: 'Network error. Please try again later.',
+      });
+    } else {
+      // Інші помилки
+      iziToast.error({
+        position: 'topRight',
+        color: 'red',
+        message: 'An unexpected error occurred. Please try again later.',
+      });
+    }
+
     hideLoaderAndShowGallery();
     handleNoResults();
   }
@@ -119,6 +143,7 @@ async function searchImages(params) {
 searchForm.addEventListener('submit', event => {
   event.preventDefault();
   searchParamsDefaults.q = event.target.elements.search.value.trim();
+  searchParamsDefaults.page = 1; // Скидаємо сторінку при новому пошуку
   const searchParams = new URLSearchParams(searchParamsDefaults);
   searchImages(searchParams);
   event.currentTarget.reset();
