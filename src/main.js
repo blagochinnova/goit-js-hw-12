@@ -112,21 +112,22 @@ async function searchImages(params) {
   } catch (error) {
     console.error(error);
 
-    if (error.response) {
-      
-      iziToast.error({
-        position: 'topRight',
-        color: 'red',
-        message: `Server responded with an error: ${error.response.statusText}`,
-      });
-    } else if (error.request) {
-      
-      iziToast.error({
-        position: 'topRight',
-        color: 'red',
-        message: 'Network error. Please try again later.',
-      });
-    } else {
+    if (axios.isAxiosError(error)) {
+      const { response, request } = error;
+
+      if (response) {
+        iziToast.error({
+          position: 'topRight',
+          color: 'red',
+          message: `Server responded with an error: ${response.statusText}`,
+        });
+      } else if (request) {
+        iziToast.error({
+          position: 'topRight',
+          color: 'red',
+          message: 'Network error. Please try again later.',
+        });
+      } else {
       // Інші помилки
       iziToast.error({
         position: 'topRight',
