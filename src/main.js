@@ -109,38 +109,42 @@ async function searchImages(params) {
     if (remainingHits <= 0) {
       handleEndOfCollection();
     }
-  } catch (error) {
-    console.error(error);
 
-    if (axios.isAxiosError(error)) {
-      const { response, request } = error;
 
-      if (response) {
-        iziToast.error({
-          position: 'topRight',
-          color: 'red',
-          message: `Server responded with an error: ${response.statusText}`,
-        });
-      } else if (request) {
-        iziToast.error({
-          position: 'topRight',
-          color: 'red',
-          message: 'Network error. Please try again later.',
-        });
-      } else {
-      // Інші помилки
+} catch (error) {
+  console.error(error);
+
+  if (axios.isAxiosError(error)) {
+    const { response, request } = error;
+
+    if (response) {
       iziToast.error({
         position: 'topRight',
         color: 'red',
-        message: 'An unexpected error occurred. Please try again later.',
+        message: `Server responded with an error: ${response.statusText}`,
+      });
+    } else if (request) {
+      iziToast.error({
+        position: 'topRight',
+        color: 'red',
+        message: 'Network error. Please try again later.',
       });
     }
-
-    hideLoaderAndShowGallery();
-    handleNoResults();
+  } else {
+    // Інші типи помилок (наприклад, якщо не є AxiosError)
+    iziToast.error({
+      position: 'topRight',
+      color: 'red',
+      message: 'An unexpected error occurred. Please try again later.',
+    });
   }
+
+  hideLoaderAndShowGallery();
+  handleNoResults();
 }
 
+
+}
 
 searchForm.addEventListener('submit', event => {
   event.preventDefault();
