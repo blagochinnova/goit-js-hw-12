@@ -141,6 +141,7 @@ async function searchImages(params) {
   }
 }
 
+
 searchForm.addEventListener('submit', event => {
   event.preventDefault();
   searchParamsDefaults.q = event.target.elements.search.value.trim();
